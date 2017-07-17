@@ -1,0 +1,36 @@
+variables:
+  MAVEN_REPO: $CI_PROJECT_DIR/.m2
+  DOCKER_DRIVER: overlay
+  SPRING_PROFILES_ACTIVE: gitlab-ci
+  PORT: 5000
+  IMAGE: $CI_REGISTRY:$PORT/$CI_PROJECT_PATH
+
+stages:
+  - build
+  - package
+
+maven-build:
+  image: maven:3-jdk-8
+  stage: build
+  script: "mvn -Dmaven.repo.local=$MAVEN_REPO package -B"
+  cache:
+    key: "$CI_BUILD_STAGE"
+    paths:
+      - node_modules
+      - .m2
+      - node
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - target/*.war
+
+docker-build:
+  stage: package
+  script:
+    - mv target/*.war root.war
+    - ls -l root.war
+    - docker build -t $IMAGE -f Dockerfile .
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY:$PORT
+    - docker push $IMAGE
+    - docker logout $CI_REGISTRY:$PORT
+
