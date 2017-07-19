@@ -2,8 +2,6 @@ variables:
   MAVEN_REPO: $CI_PROJECT_DIR/.m2
   DOCKER_DRIVER: overlay
   SPRING_PROFILES_ACTIVE: gitlab-ci
-  PORT: 5000
-  IMAGE: $CI_REGISTRY:$PORT/$CI_PROJECT_PATH
 
 stages:
   - build
@@ -28,8 +26,8 @@ docker-build:
   stage: package
   script:
     - mv target/*.war ROOT.war
-    - docker build -t $IMAGE -f Dockerfile .
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY:$PORT
-    - docker push $IMAGE
-    - docker logout $CI_REGISTRY:$PORT
-
+    - docker build -t $CI_REGISTRY_IMAGE -f Dockerfile .
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker push $CI_REGISTRY_IMAGE
+    - docker logout $CI_REGISTRY
+    
