@@ -37,6 +37,9 @@ jelastic-deploy:
   image: openjdk:8-jre
   stage: deploy
   script: 
+  - if [ -z "$J_LOGIN" ]; then echo "J_LOGIN is not specified"; exit 2; fi
+  - if [ -z "$J_PASSWORD" ]; then echo "J_PASSWORD is not specified"; exit 2; fi
+  - if [ -z "$J_PLATFORM" ]; then echo "J_PLATFORM is not specified"; exit 2; fi  
   - curl -s ftp://ftp.jelastic.com/pub/cli/jelastic-cli-installer.sh | bash
   - echo "jelastic.cli.send_err_confirm=false" >> ~/.config/jelastic/jelastic.properties
   - ~/jelastic/users/authentication/signin --silent true --login $J_LOGIN --password $J_PASSWORD --platformUrl $J_PLATFORM
