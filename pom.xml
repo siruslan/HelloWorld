@@ -21,7 +21,7 @@
                     <context>${CONTEXT}</context>
                     <environment>${TARGET_ENV}</environment>
                     <comment>test-plugin</comment>
-                    <api_hoster>${JELASTIC_API_ENDPOINT}</api_hoster>
+                    <api_hoster>app.demo.jelastic.com</api_hoster>
                 </configuration>
             </plugin>
         </plugins>
