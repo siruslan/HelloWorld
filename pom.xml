@@ -17,11 +17,11 @@
                 <artifactId>jelastic-maven-plugin</artifactId>
                 <version>1.9</version>
                 <configuration>
-                    <apiToken>${token}</apiToken>
-                    <context>${context}</context>
-                    <environment>${destEnv}</environment>
+                    <apiToken>${TOKEN}</apiToken>
+                    <context>${CONTEXT}</context>
+                    <environment>${TARGET_ENV}</environment>
                     <comment>test-plugin</comment>
-                    <api_hoster>${jelastic}</api_hoster>
+                    <api_hoster>${JELASTIC_API_ENDPOINT}</api_hoster>
                 </configuration>
             </plugin>
         </plugins>
